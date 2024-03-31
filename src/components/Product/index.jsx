@@ -1,17 +1,20 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-import product from '../../assets/shoes.png';
+import image from '../../assets/shoes.png';
+import { useNavigate } from "react-router-dom";
 
-const Product = () => {
+const Product = ({ product }) => {
+  const navigate = useNavigate();
+
   return (
-    <Card style={{ width: '25rem' }}>
-      <Card.Img variant="top" src={product} />
+    <Card onClick={() => navigate(`/detail/${product.id}`)} style={{ cursor: 'pointer' }}>
+      <Card.Img variant="top" src={image} />
       <Card.Body>
-        <Card.Title>Name</Card.Title>
-        <Card.Text>Men's Shoes</Card.Text>
+        <Card.Title>{product.name}</Card.Title>
+        <Card.Text>{product.details}</Card.Text>
         <Card.Text>
-          <b>$9,999</b>
+          <b>{product.price} VND</b>
         </Card.Text>
       </Card.Body>
     </Card>

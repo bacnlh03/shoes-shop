@@ -1,32 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BannerComponent from "../../components/Banner";
-import { Col, Container, Row } from "react-bootstrap";
-import Product from "../../components/Product";
+import ProductService from "../../service/productService";
+import ListProduct from "../../components/ListProduct";
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+
+  const getListProduct = () => {
+    ProductService.getList()
+      .then(products => {
+        console.log(products);
+        setProducts(products);
+      });
+  };
+
+  useEffect(() => {
+    getListProduct();
+  }, []);
+
   return (
     <>
       <BannerComponent />
       <br />
-      <Container fluid>
-        <Row>
-          <Col sm><Product /></Col>
-          <Col sm><Product /></Col>
-          <Col sm><Product /></Col>
-        </Row>
-        <br />
-        <Row>
-          <Col sm><Product /></Col>
-          <Col sm><Product /></Col>
-          <Col sm><Product /></Col>
-        </Row>
-        <br />
-        <Row>
-          <Col sm><Product /></Col>
-          <Col sm><Product /></Col>
-          <Col sm><Product /></Col>
-        </Row>
-      </Container>
+      <ListProduct products={products} />
     </>
   );
 };

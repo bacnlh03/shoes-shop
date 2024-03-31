@@ -28,8 +28,8 @@ const NavbarComponent = () => {
         </Navbar.Collapse>
 
         <Navbar.Collapse className='justify-content-end'>
-          <Form inline>
-            <FormControl type='text' placeholder='Search' />
+          <Form inline='true'>
+            <FormControl id='search' type='text' placeholder='Search' />
           </Form>
 
           <div style={{ padding: 10 }}>
