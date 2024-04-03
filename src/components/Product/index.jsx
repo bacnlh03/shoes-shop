@@ -8,7 +8,7 @@ const Product = ({ product }) => {
   const navigate = useNavigate();
 
   return (
-    <Card onClick={() => navigate(`/detail/${product.id}`)} style={{ cursor: 'pointer' }}>
+    <Card onClick={() => navigate(`/detail/${product.id}`)} style={{ margin: '10px', cursor: 'pointer' }}>
       <Card.Img variant="top" src={image} />
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
