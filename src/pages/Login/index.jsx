@@ -1,34 +1,29 @@
-import React, { useState } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
+import React from "react";
+import { Button, Form, Spinner, Toast } from "react-bootstrap";
 import { ErrorMessage, Formik } from "formik";
-import AuthService from "../../service/authService";
 import { useNavigate } from "react-router-dom";
 import loginSchema from "../../validation/login";
+import useAuthStore from "../../features/auth/authStore";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, error, login } = useAuthStore();
 
   const initialValues = {
     'email': '',
     'password': ''
   }
 
-  const onSubmit = async (values) => {
-    setIsLoading(true);
-    AuthService.login(values.email, values.password)
-      .then(_ => {
-        setIsLoading(false);
-        navigate('/')
-      })
-      .catch(err => {
-        console.log(err);
-        setIsLoading(false);
-      });
+  const onSubmit = (values) => {
+    login(values).then(() => navigate('/'));
   };
 
   return (
     <div style={{ position: 'absolute', left: '50%', top: '40%', transform: 'translate(-50%, -50%)' }}>
+      <Toast show={error !== null} delay={1000} autohide>
+        {error}
+      </Toast>
+
       <h2>Enter your information to login</h2>
       <br />
 
@@ -76,13 +71,15 @@ const Login = () => {
             <Button variant="primary" type="submit" formMethod="post" disabled={isLoading}>
               {
                 isLoading
-                  ? <Spinner animation="border" />
+                  ? <Spinner />
                   : 'Log In'
               }
             </Button>
           </Form>
         )}
       </Formik>
+
+      <h6>Don't have account? <a href="/register">Register</a></h6>
     </div>
   );
 };

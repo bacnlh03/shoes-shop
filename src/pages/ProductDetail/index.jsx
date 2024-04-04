@@ -1,50 +1,61 @@
-import React, { useEffect, useState } from "react";
-import ProductService from "../../service/productService";
+import React, { useEffect } from "react";
 
 import image from "../../assets/shoes.png"
 import { useParams } from "react-router-dom";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner, Toast } from "react-bootstrap";
+import useProductStore from "../../features/product/productStore";
 
 const ProductDetail = () => {
-  const [product, setProduct] = useState({});
   const { id } = useParams();
-
-  const getProductById = async (id) => {
-    ProductService.getById(id)
-      .then(product => {
-        console.log(product);
-        setProduct(product)
-      });
-  };
+  const { selectedProduct, isLoading, error, getProductById } = useProductStore();
 
   useEffect(() => {
     console.log('Get detail: ', id);
     getProductById(id)
-  }, [id]);
+  }, [getProductById, id]);
+
+  const handleAddToCart = (id) => {
+    console.log(`Add to cart: ${id}`);
+  };
+
+  if (isLoading) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
-    <Container fluid>
-      <Row>
-        <Col>
-          <img src={image} alt={product.name} />
-        </Col>
+    <>
+      <Toast show={error !== null} delay={1000} autohide>
+        {error}
+      </Toast>
 
-        <Col>
-          <div>
-            <div>{product.brand_id}</div>
-            <div>{product.name}</div>
-            <div>{product.gender_id ? 'Women' : 'Men'}'s Shoes</div>
-            <div>{product.price}</div>
-            <div>Discout: {product.discount}%</div>
+      <Container fluid>
+        <Row>
+          <Col>
+            <img src={image} alt={selectedProduct.name} />
+          </Col>
+
+          <Col>
             <div>
-              <p>
-                {product.details}
-              </p>
+              <div>{selectedProduct.brand_id}</div>
+              <div>{selectedProduct.name}</div>
+              <div>{selectedProduct.gender_id ? 'Women' : 'Men'}'s Shoes</div>
+              <div>{selectedProduct.price}</div>
+              <div>Discout: {selectedProduct.discount}%</div>
+              <div>
+                <p>
+                  {selectedProduct.details}
+                </p>
+              </div>
+              <Button variant="outline-primary" onClick={() => handleAddToCart(id)}>
+                Add to Cart
+              </Button>
             </div>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

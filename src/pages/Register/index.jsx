@@ -1,13 +1,13 @@
 import { ErrorMessage, Formik } from "formik";
-import React, { useState } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
+import React from "react";
+import { Button, Form, Spinner, Toast } from "react-bootstrap";
 import registerSchema from "../../validation/register";
 import { useNavigate } from "react-router-dom";
-import AuthService from "../../service/authService";
+import useAuthStore from "../../features/auth/authStore";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, error, register } = useAuthStore();
 
   const initialValues = {
     'email': '',
@@ -16,27 +16,22 @@ const Register = () => {
     'confirmPassword': '',
   };
 
-  const handleSubmit = async (values) => {
-    setIsLoading(true);
-    AuthService.register(values.email, values.username, values.password, values.confirmPassword)
-      .then(_ => {
-        setIsLoading(false);
-        navigate('/');
-      })
-      .catch(err => {
-        console.log(err);
-        setIsLoading(false);
-      });
+  const onSubmit = (values) => {
+    register(values).then(() => navigate('/'));
   };
 
   return (
     <div style={{ position: 'absolute', left: '50%', top: '40%', transform: 'translate(-50%, -50%)' }}>
+      <Toast show={error !== null} delay={1000} autohide>
+        {error}
+      </Toast>
+
       <h2>Enter your information to register</h2>
       <br />
 
       <Formik
         validationSchema={registerSchema}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         initialValues={initialValues}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -112,13 +107,15 @@ const Register = () => {
             <Button variant="primary" type="submit" formMethod="post" disabled={isLoading}>
               {
                 isLoading
-                  ? <Spinner animation="border" />
+                  ? <Spinner />
                   : 'Register'
               }
             </Button>
           </Form>
         )}
       </Formik>
+
+      <h6>Already have an account? <a href="/login">Login</a></h6>
     </div>
   );
 };

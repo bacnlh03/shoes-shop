@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BannerComponent from "../../components/Banner";
-import ProductService from "../../service/productService";
+import useProductStore from "../../features/product/productStore";
 import ListProduct from "../../components/ListProduct";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-
-  const getListProduct = () => {
-    ProductService.getList()
-      .then(products => {
-        console.log(products);
-        setProducts(products);
-      });
-  };
+  const { listProduct, isLoading, error, getListProduct } = useProductStore();
 
   useEffect(() => {
     getListProduct();
-  }, []);
+  }, [getListProduct]);
 
   return (
     <>
       <BannerComponent />
       <br />
-      <ListProduct products={products} />
+      <ListProduct products={listProduct} isLoading={isLoading} error={error} />
     </>
   );
 };
