@@ -4,18 +4,21 @@ import image from "../../assets/shoes.png"
 import { useParams } from "react-router-dom";
 import { Button, Col, Container, Row, Spinner, Toast } from "react-bootstrap";
 import useProductStore from "../../features/product/productStore";
+import useCartStore from "../../features/cart/cartStore";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const { selectedProduct, isLoading, error, getProductById } = useProductStore();
+  const { addToCart } = useCartStore();
 
   useEffect(() => {
     console.log('Get detail: ', id);
-    getProductById(id)
+    getProductById(id);
   }, [getProductById, id]);
 
-  const handleAddToCart = (id) => {
-    console.log(`Add to cart: ${id}`);
+  const handleAddToCart = async () => {
+    console.log(`Add to cart UI: ${selectedProduct.id}`);
+    await addToCart(selectedProduct);
   };
 
   if (isLoading) {

@@ -1,14 +1,16 @@
-import { Button, Container, Form, FormControl, Nav, Navbar, Spinner, Toast } from 'react-bootstrap';
+import { Badge, Button, Container, Form, FormControl, Nav, Navbar, Spinner, Toast } from 'react-bootstrap';
 
 import logo from '../../assets/logo.svg';
 import useUserStore from '../../features/user/userStore';
 import { useEffect } from 'react';
 import useAuthStore from '../../features/auth/authStore';
 import cartLogo from '../../assets/cart.svg';
+import useCartStore from '../../features/cart/cartStore';
 
 const NavbarComponent = () => {
   const { token, isLoading, error, logout } = useAuthStore();
   const { user, getCurrentUser } = useUserStore();
+  const { cart } = useCartStore();
 
   useEffect(() => {
     if (token) {
@@ -85,6 +87,7 @@ const NavbarComponent = () => {
 
             <a href="/cart">
               <img src={cartLogo} alt="cart" width='30' height='30' />
+              {user && <Badge>{cart.length}</Badge>}
             </a>
           </Navbar.Collapse>
         </Container>
