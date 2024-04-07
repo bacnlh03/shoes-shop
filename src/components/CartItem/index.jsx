@@ -1,24 +1,42 @@
 import React from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
 import productLogo from "../../assets/shoes.png";
+import removeLogo from "../../assets/delete.svg";
+import { Col, Container, Image, Row } from "react-bootstrap";
+import useCartStore from "../../features/cart/cartStore";
+import Divider from "../Divider";
 
 const CartItem = ({ product }) => {
-  console.log(product);
+  const { removeFromCart } = useCartStore();
+
+  const removeProduct = async (product) => {
+    removeFromCart(product).then(() => window.location.reload());
+  };
 
   return (
     <Container>
-      <Row>
-        <Image className="w-25 h-25" src={productLogo} alt={product.name} />
+      <Col>
+        <Row>
+          <Col>
+            <Image src={productLogo} alt={product.name} style={{ width: '70%' }} />
+          </Col>
 
-        <Col className="d-flex align-items-center">
-          <Row>
-            name
-            price
-          </Row>
+          <Col className="align-self-start">
+            <b className="d-flex">{product.name}</b>
+            <div className="d-flex">{product.gender_id ? 'Women' : 'Men'}'s Shoes</div>
+            <img
+              onClick={() => { removeProduct(product) }}
+              className="d-flex"
+              src={removeLogo}
+              alt="remove"
+              style={{ width: '25px', cursor: 'pointer' }} />
+          </Col>
 
-          {product.gender ? 'Women' : 'Men'}'s Shoes
-        </Col>
-      </Row>
+          <Col style={{ textAlign: 'end' }}>
+            <b>{product.price} VND</b>
+          </Col>
+        </Row>
+      </Col>
+      <Divider className="d-inline" />
     </Container>
   );
 };

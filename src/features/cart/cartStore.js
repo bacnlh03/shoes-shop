@@ -26,6 +26,28 @@ const useCartStore = create((set) => ({
     } catch (error) {
       set({ isLoading: false, error: error.message });
     }
+  },
+  removeFromCart: async (product) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      await CartService.removeFromCart(product);
+
+      set({ isLoading: false });
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+    }
+  },
+  handleCheckout: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      await CartService.handleCheckout();
+
+      set({ isLoading: false });
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+    }
   }
 }));
 

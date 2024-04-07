@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <NavbarComponent />
       <AppRouter />
-      <ToastContainer />
+      <ToastContainer position='top-center' />
     </div>
   );
 }

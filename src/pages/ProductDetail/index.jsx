@@ -18,7 +18,8 @@ const ProductDetail = () => {
 
   const handleAddToCart = async () => {
     console.log(`Add to cart UI: ${selectedProduct.id}`);
-    await addToCart(selectedProduct);
+    addToCart(selectedProduct)
+      .then(() => window.location.reload());
   };
 
   if (isLoading) {

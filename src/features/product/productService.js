@@ -3,7 +3,10 @@ import api from "../../api";
 const ProductService = {
   getListProduct: async () => {
     return api.get('/api/shoes/')
-      .then(response => response.data)
+      .then(response => {
+        console.log(`ProductService: ${response.data}`);
+        return response.data;
+      })
       .catch(err => {
         console.log(err);
         throw err;

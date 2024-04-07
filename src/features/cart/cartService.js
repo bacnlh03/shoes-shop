@@ -1,13 +1,19 @@
+let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
 const CartService = {
   addToCart: async (product) => {
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    console.log(`Current cart: ${cart}`);
-    cart.push(JSON.stringify(product));
-    console.log(`After push: ${cart}`);
+    cart.push(product);
     sessionStorage.setItem('cart', JSON.stringify(cart));
   },
-  getCart: () => {
-    return JSON.parse(sessionStorage.getItem('cart'));
+  getCart: async () => {
+    return cart;
+  },
+  removeFromCart: async (product) => {
+    cart = cart.filter(item => item !== product);
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+  },
+  handleCheckout: async () => {
+    sessionStorage.removeItem('cart');
   }
 };
 
