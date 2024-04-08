@@ -15,7 +15,10 @@ const Checkout = ({ totalPrice, props }) => {
   const { isLoading, handleCheckout } = useCartStore();
 
   const onSubmit = async () => {
-    handleCheckout().then(() => window.location.reload());
+    handleCheckout().then(() => {
+      window.alert('Checkout successfully');
+      window.location.reload();
+    });
   };
 
   const dilivery = 20000;

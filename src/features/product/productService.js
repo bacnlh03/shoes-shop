@@ -4,7 +4,6 @@ const ProductService = {
   getListProduct: async () => {
     return api.get('/api/shoes/')
       .then(response => {
-        console.log(`ProductService: ${response.data}`);
         return response.data;
       })
       .catch(err => {
@@ -15,7 +14,6 @@ const ProductService = {
   getProductById: async (id) => {
     return api.get(`/api/shoes/${id}/`)
       .then(response => {
-        console.log(`Detail: ${JSON.stringify(response.data)}`);
         return response.data
       })
       .catch(err => {

@@ -3,8 +3,22 @@ import { Col, Container, Dropdown, Form, InputGroup, Row } from "react-bootstrap
 import { CiSearch } from "react-icons/ci";
 
 import "./style.css";
+import useProductStore from "../../features/product/productStore";
 
 const SearchBar = () => {
+  const {
+    sortProductByPriceAsc,
+    sortProductByPriceDesc
+  } = useProductStore();
+
+  const handleSortProductByPriceAsc = async () => {
+    await sortProductByPriceAsc();
+  };
+
+  const handleSortProductByPriceDesc = async () => {
+    await sortProductByPriceDesc();
+  };
+
   return (
     <Container fluid className="px-5 pt-5">
       <Row className="justify-content-between">
@@ -44,11 +58,11 @@ const SearchBar = () => {
                 Newest
               </Dropdown.Item>
 
-              <Dropdown.Item>
+              <Dropdown.Item onClick={handleSortProductByPriceDesc}>
                 Price: High - Low
               </Dropdown.Item>
 
-              <Dropdown.Item>
+              <Dropdown.Item onClick={handleSortProductByPriceAsc}>
                 Price: Low - High
               </Dropdown.Item>
             </Dropdown.Menu>
