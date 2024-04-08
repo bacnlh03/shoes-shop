@@ -4,6 +4,7 @@ import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import checkoutSchema from "../../validation/checkout";
 import Divider from "../Divider";
 import useCartStore from "../../features/cart/cartStore";
+import { formatCash } from "../../utils/formatCash";
 
 const Checkout = ({ totalPrice, props }) => {
   const initialValues = {
@@ -95,20 +96,20 @@ const Checkout = ({ totalPrice, props }) => {
               <Row>
                 <Col className="col-sm-1">Subtotal</Col>
                 <Col style={{ textAlign: 'end', paddingRight: '20%' }}>
-                  {totalPrice}
+                  {formatCash(totalPrice)}
                 </Col>
               </Row>
               <Row>
                 <Col className="col-sm-1">Delivery</Col>
                 <Col style={{ textAlign: 'end', paddingRight: '20%' }}>
-                  {dilivery}
+                  {formatCash(dilivery)}
                 </Col>
               </Row>
               <Divider />
               <Row>
                 <Col className="col-sm-1">Total</Col>
                 <Col style={{ textAlign: 'end', paddingRight: '20%' }}>
-                  {totalPrice + dilivery}
+                  {formatCash(totalPrice + dilivery)}
                 </Col>
               </Row>
 

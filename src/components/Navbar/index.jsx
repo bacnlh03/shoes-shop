@@ -82,7 +82,7 @@ const NavbarComponent = () => {
           </Nav>
         </Navbar.Collapse>
 
-        <Navbar.Collapse className='justify-content-end'>
+        <div className='d-inline-block justify-content-end'>
           <Button className='mx-2' variant='outline' style={{ border: 'solid 1px' }}>
             <CiSearch width={30} />{' '}
             Search
@@ -92,7 +92,7 @@ const NavbarComponent = () => {
             <img src={cartLogo} alt="cart" width='30' height='30' />
             {user && <Badge>{cart.length}</Badge>}
           </a>
-        </Navbar.Collapse>
+        </div>
       </Navbar>
     </>
   );

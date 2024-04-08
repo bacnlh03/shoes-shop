@@ -3,6 +3,7 @@ import { Card } from "react-bootstrap";
 
 import image from '../../assets/shoes.png';
 import { useNavigate } from "react-router-dom";
+import { formatCash } from "../../utils/formatCash";
 
 const Product = ({ product }) => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Product = ({ product }) => {
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>{product.details}</Card.Text>
         <Card.Text>
-          <b>{product.price} VND</b>
+          <b>{formatCash(product.price)} VND</b>
         </Card.Text>
       </Card.Body>
     </Card>

@@ -7,6 +7,7 @@ import useProductStore from "../../features/product/productStore";
 import useCartStore from "../../features/cart/cartStore";
 import useAuthStore from "../../features/auth/authStore";
 import useUserStore from "../../features/user/userStore";
+import { formatCash } from "../../utils/formatCash";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -54,7 +55,7 @@ const ProductDetail = () => {
             <div className="d-flex flex-column align-items-start">
               <h3>{selectedProduct.name}</h3>
               <h6>{selectedProduct.gender_id ? 'Women' : 'Men'}'s Shoes</h6>
-              <h6>{selectedProduct.price} VND</h6>
+              <h6>{formatCash(selectedProduct.price)} VND</h6>
               <div>Discout: {selectedProduct.discount}%</div>
               <div>
                 <p>

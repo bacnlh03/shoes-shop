@@ -4,6 +4,7 @@ import removeLogo from "../../assets/delete.svg";
 import { Col, Container, Image, Row } from "react-bootstrap";
 import useCartStore from "../../features/cart/cartStore";
 import Divider from "../Divider";
+import { formatCash } from "../../utils/formatCash";
 
 const CartItem = ({ product }) => {
   const { removeFromCart } = useCartStore();
@@ -32,7 +33,7 @@ const CartItem = ({ product }) => {
           </Col>
 
           <Col style={{ textAlign: 'end' }}>
-            <b>{product.price} VND</b>
+            <b>{formatCash(product.price)} VND</b>
           </Col>
         </Row>
       </Col>
