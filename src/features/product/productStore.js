@@ -2,6 +2,7 @@ import { create } from "zustand";
 import ProductService from "./productService";
 
 const useProductStore = create((set, get) => ({
+  originalListProduct: [],
   listProduct: [],
   selectedProduct: {},
   isLoading: false,
@@ -12,7 +13,7 @@ const useProductStore = create((set, get) => ({
     try {
       const products = await ProductService.getListProduct();
 
-      set({ isLoading: false, listProduct: products });
+      set({ isLoading: false, listProduct: products, originalListProduct: products });
     } catch (error) {
       set({ isLoading: false, error: error.message });
     }
@@ -56,6 +57,26 @@ const useProductStore = create((set, get) => ({
       } else {
         throw new Error("List of products is empty.");
       }
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+    }
+  },
+  searchProductByName: async (query) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      if (query === '') {
+        const originalListProduct = get().originalListProduct;
+        set({ isLoading: false, listProduct: originalListProduct });
+      }
+
+      const queryLowerCase = query.toLowerCase();
+
+      const result = get().listProduct.slice().filter(
+        product => product.name.toLowerCase().includes(queryLowerCase)
+      );
+
+      set({ isLoading: false, listProduct: result });
     } catch (error) {
       set({ isLoading: false, error: error.message });
     }

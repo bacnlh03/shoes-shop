@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Dropdown, Form, InputGroup, Row } from "react-bootstrap";
 import { CiSearch } from "react-icons/ci";
 
@@ -8,7 +8,8 @@ import useProductStore from "../../features/product/productStore";
 const SearchBar = () => {
   const {
     sortProductByPriceAsc,
-    sortProductByPriceDesc
+    sortProductByPriceDesc,
+    searchProductByName
   } = useProductStore();
 
   const handleSortProductByPriceAsc = async () => {
@@ -19,6 +20,16 @@ const SearchBar = () => {
     await sortProductByPriceDesc();
   };
 
+  const handleSearchProductByName = async (query) => {
+    await searchProductByName(query);
+  };
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
   return (
     <Container fluid className="px-5 pt-5">
       <Row className="justify-content-between">
@@ -26,22 +37,29 @@ const SearchBar = () => {
           <Form>
             <Form.Group controlId="searchBar">
               <InputGroup>
-                <InputGroup.Text
+                <Form.Control
+                  type="text"
+                  placeholder="Look up name"
                   style={{
                     borderTopLeftRadius: '20px',
                     borderBottomLeftRadius: '20px'
                   }}
-                >
-                  <CiSearch />
-                </InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Search..."
-                  style={{
-                    borderTopRightRadius: '20px',
-                    borderBottomRightRadius: '20px'
-                  }}
+                  value={searchValue}
+                  onChange={handleChange}
                 />
+
+                <InputGroup.Text
+                  className="btn-search"
+                  style={{
+                    paddingInline: '20px',
+                    borderTopRightRadius: '20px',
+                    borderBottomRightRadius: '20px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => handleSearchProductByName(searchValue)}
+                >
+                  Search
+                </InputGroup.Text>
               </InputGroup>
             </Form.Group>
           </Form>
