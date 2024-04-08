@@ -25,6 +25,7 @@ const ProductDetail = () => {
   const handleAddToCart = async () => {
     if (!token || !user) {
       navigate('/login');
+      return;
     }
 
     addToCart(selectedProduct)
@@ -45,23 +46,26 @@ const ProductDetail = () => {
 
       <Container fluid>
         <Row>
-          <Col>
+          <Col xs={7}>
             <img src={image} alt={selectedProduct.name} />
           </Col>
 
           <Col>
-            <div>
-              <div>{selectedProduct.brand_id}</div>
-              <div>{selectedProduct.name}</div>
-              <div>{selectedProduct.gender_id ? 'Women' : 'Men'}'s Shoes</div>
-              <div>{selectedProduct.price}</div>
+            <div className="d-flex flex-column align-items-start">
+              <h3>{selectedProduct.name}</h3>
+              <h6>{selectedProduct.gender_id ? 'Women' : 'Men'}'s Shoes</h6>
+              <h6>{selectedProduct.price} VND</h6>
               <div>Discout: {selectedProduct.discount}%</div>
               <div>
                 <p>
                   {selectedProduct.details}
                 </p>
               </div>
-              <Button variant="outline-primary" onClick={() => handleAddToCart(id)}>
+              <Button
+                style={{ borderRadius: '20px', paddingInline: '20px' }}
+                variant="primary"
+                onClick={() => handleAddToCart(id)}
+              >
                 Add to Cart
               </Button>
             </div>
