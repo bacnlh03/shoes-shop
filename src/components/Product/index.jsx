@@ -7,8 +7,12 @@ import { useNavigate } from "react-router-dom";
 const Product = ({ product }) => {
   const navigate = useNavigate();
 
+  const handleCardClick = (product) => {
+    navigate(`/detail/${product.id}`)
+  }
+
   return (
-    <Card onClick={() => navigate(`/detail/${product.id}`)} style={{ margin: '10px', cursor: 'pointer' }}>
+    <Card onClick={() => handleCardClick(product)} style={{ cursor: 'pointer' }}>
       <Card.Img variant="top" src={image} />
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>

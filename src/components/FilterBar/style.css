@@ -1,0 +1,10 @@
+.accordion-item {
+  margin-bottom: 1em;
+}
+
+.accordion-body {
+  align-items: start;
+  display: flex;
+  flex-flow: column;
+  justify-content: start;
+}

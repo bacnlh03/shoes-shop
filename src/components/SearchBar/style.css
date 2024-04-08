@@ -1,0 +1,16 @@
+.dropdown-item:hover {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.dropdown-item:focus {
+  background-color: white !important;
+}
+
+.dropdown-toggle:focus {
+  border: none !important;
+}
+
+.rotate {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+}

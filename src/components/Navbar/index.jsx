@@ -6,6 +6,9 @@ import { useEffect } from 'react';
 import useAuthStore from '../../features/auth/authStore';
 import cartLogo from '../../assets/cart.svg';
 import useCartStore from '../../features/cart/cartStore';
+import { CiSearch } from "react-icons/ci";
+
+import "./style.css";
 
 const NavbarComponent = () => {
   const { token, isLoading, error, logout } = useAuthStore();
@@ -57,40 +60,39 @@ const NavbarComponent = () => {
           )
       }
 
-      <Navbar expand='lg' className='bg-body-tertiary pb-4'>
-        <Container>
-          <Navbar.Brand href='/'>
-            <img
-              src={logo}
-              alt='Logo'
-              width='30'
-              height='30'
-              className='d-inline-block align-top'
-            />
-          </Navbar.Brand>
+      <Navbar expand='lg' className='bg-body-tertiary pb-4 px-5'>
+        <Navbar.Brand href='/'>
+          <img
+            src={logo}
+            alt='Logo'
+            width='30'
+            height='30'
+            className='d-inline-block align-top'
+          />
+        </Navbar.Brand>
 
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
 
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='me-auto'>
-              <Nav.Link href='#men'>Men</Nav.Link>
-              <Nav.Link href='#women'>Women</Nav.Link>
-              <Nav.Link href='#kids'>Kids</Nav.Link>
-              <Nav.Link href='#sale'>Sale</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='me-auto'>
+            <Nav.Link href='#men'>Men</Nav.Link>
+            <Nav.Link href='#women'>Women</Nav.Link>
+            <Nav.Link href='#kids'>Kids</Nav.Link>
+            <Nav.Link href='#sale'>Sale</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
 
-          <Navbar.Collapse className='justify-content-end'>
-            <Form inline='true'>
-              <FormControl id='search' type='text' placeholder='Search' />
-            </Form>
+        <Navbar.Collapse className='justify-content-end'>
+          <Button className='mx-2' variant='outline' style={{ border: 'solid 1px' }}>
+            <CiSearch width={30} />{' '}
+            Search
+          </Button>
 
-            <a href="/cart">
-              <img src={cartLogo} alt="cart" width='30' height='30' />
-              {user && <Badge>{cart.length}</Badge>}
-            </a>
-          </Navbar.Collapse>
-        </Container>
+          <a href="/cart">
+            <img src={cartLogo} alt="cart" width='30' height='30' />
+            {user && <Badge>{cart.length}</Badge>}
+          </a>
+        </Navbar.Collapse>
       </Navbar>
     </>
   );
