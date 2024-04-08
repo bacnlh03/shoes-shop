@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
 
 import image from "../../assets/shoes.png"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Col, Container, Row, Spinner, Toast } from "react-bootstrap";
 import useProductStore from "../../features/product/productStore";
 import useCartStore from "../../features/cart/cartStore";
+import useAuthStore from "../../features/auth/authStore";
+import useUserStore from "../../features/user/userStore";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const { selectedProduct, isLoading, error, getProductById } = useProductStore();
   const { addToCart } = useCartStore();
+
+  const { token } = useAuthStore();
+  const { user } = useUserStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log('Get detail: ', id);
@@ -17,7 +23,10 @@ const ProductDetail = () => {
   }, [getProductById, id]);
 
   const handleAddToCart = async () => {
-    console.log(`Add to cart UI: ${selectedProduct.id}`);
+    if (!token || !user) {
+      navigate('/login');
+    }
+
     addToCart(selectedProduct)
       .then(() => window.location.reload());
   };
