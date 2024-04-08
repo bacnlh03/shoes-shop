@@ -57,7 +57,7 @@ const NavbarComponent = () => {
           )
       }
 
-      <Navbar expand='lg' className='bg-body-tertiary'>
+      <Navbar expand='lg' className='bg-body-tertiary pb-4'>
         <Container>
           <Navbar.Brand href='/'>
             <img
