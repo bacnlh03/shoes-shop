@@ -36,6 +36,7 @@ const useAuthStore = create((set) => ({
     try {
       await AuthService.logout();
       localStorage.clear();
+      sessionStorage.clear();
 
       set({ token: null, isLoading: false });
     } catch (error) {

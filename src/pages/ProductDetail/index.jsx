@@ -55,10 +55,27 @@ const ProductDetail = () => {
             <div className="d-flex flex-column align-items-start">
               <h3>{selectedProduct.name}</h3>
               <h6>{selectedProduct.gender_id ? 'Women' : 'Men'}'s Shoes</h6>
-              <h6>{formatCash(selectedProduct.price)} VND</h6>
-              <div>Discout: {selectedProduct.discount}%</div>
+              <h6>
+                {
+                  selectedProduct.discount !== 0
+                    ? <div className="d-flex flex-row justify-content-center">
+                      <div style={{ textDecoration: 'line-through', paddingRight: '5px' }}>
+                        {formatCash(selectedProduct.price)}
+                      </div>
+                      <div>
+                        {formatCash(selectedProduct.price * (100 - selectedProduct.discount) / 100)} VND
+                      </div>
+                    </div>
+                    : <div>
+                      <b>{formatCash(selectedProduct.price)}</b>
+                    </div>
+                }
+              </h6>
+              {
+                selectedProduct.discount !== 0 && <div>Discout: {selectedProduct.discount}%</div>
+              }
               <div>
-                <p>
+                <p style={{ textAlign: 'start' }}>
                   {selectedProduct.details}
                 </p>
               </div>
