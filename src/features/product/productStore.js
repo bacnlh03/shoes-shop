@@ -80,6 +80,44 @@ const useProductStore = create((set, get) => ({
     } catch (error) {
       set({ isLoading: false, error: error.message });
     }
+  },
+  filterProduct: async ({ name, gender, kids, priceGroup }) => {
+    console.log({ name, gender, kids, priceGroup });
+    set({ isLoading: true, error: null });
+
+    try {
+      if (name === '' && gender === undefined && kids === undefined && priceGroup === undefined) {
+        console.log('Inside first check');
+        const originalListProduct = get().originalListProduct;
+        set({ isLoading: false, listProduct: originalListProduct });
+        return;
+      }
+
+      const queryLowerCase = name?.toLowerCase();
+      console.log(queryLowerCase);
+
+      let result = get().originalListProduct.slice();
+
+      if (queryLowerCase && queryLowerCase !== '') {
+        console.log('Inside name');
+        result = result.filter(
+          product => product.name.toLowerCase().includes(queryLowerCase)
+        );
+        console.log(`After filter name: ${result}`);
+      }
+
+      if (gender !== undefined && gender !== null) {
+        console.log(`Inside gender: ${gender}`);
+        result = result.filter(
+          product => product.gender_id === gender
+        );
+        console.log(`After filter gender: ${result}`);
+      }
+
+      set({ isLoading: false, listProduct: result });
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+    }
   }
 }));
 

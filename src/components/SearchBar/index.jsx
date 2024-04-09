@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-import { Col, Container, Dropdown, Form, InputGroup, Row } from "react-bootstrap";
-import { CiSearch } from "react-icons/ci";
+import React from "react";
+import { Button, Col, Container, Dropdown, Form, InputGroup, Row } from "react-bootstrap";
 
 import "./style.css";
 import useProductStore from "../../features/product/productStore";
 
-const SearchBar = () => {
+const SearchBar = ({ name, setName, onSearch, onReset }) => {
   const {
     sortProductByPriceAsc,
-    sortProductByPriceDesc,
-    searchProductByName
+    sortProductByPriceDesc
   } = useProductStore();
 
   const handleSortProductByPriceAsc = async () => {
@@ -18,16 +16,6 @@ const SearchBar = () => {
 
   const handleSortProductByPriceDesc = async () => {
     await sortProductByPriceDesc();
-  };
-
-  const handleSearchProductByName = async (query) => {
-    await searchProductByName(query);
-  };
-
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleChange = (e) => {
-    setSearchValue(e.target.value);
   };
 
   return (
@@ -44,8 +32,8 @@ const SearchBar = () => {
                     borderTopLeftRadius: '20px',
                     borderBottomLeftRadius: '20px'
                   }}
-                  value={searchValue}
-                  onChange={handleChange}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
 
                 <InputGroup.Text
@@ -56,13 +44,22 @@ const SearchBar = () => {
                     borderBottomRightRadius: '20px',
                     cursor: 'pointer'
                   }}
-                  onClick={() => handleSearchProductByName(searchValue)}
+                  onClick={onSearch}
                 >
                   Search
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
           </Form>
+        </Col>
+
+        <Col className="d-flex">
+          <Button
+            onClick={onReset}
+            variant="outline" style={{ border: '1px solid' }}
+          >
+            Reset
+          </Button>
         </Col>
 
         <Col className="d-flex justify-content-end">

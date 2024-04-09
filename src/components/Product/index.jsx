@@ -37,17 +37,21 @@ const Product = ({ product }) => {
         <Card.Text>
           {
             product.discount !== 0
-              ? <div className="d-flex flex-row justify-content-center">
-                <div style={{ textDecoration: 'line-through', paddingRight: '5px' }}>
-                  {formatCash(product.price)}
+              ? (
+                <div className="d-flex flex-row justify-content-center">
+                  <div style={{ textDecoration: 'line-through', paddingRight: '5px' }}>
+                    {formatCash(product.price)}
+                  </div>
+                  <div>
+                    <b>{formatCash(product.price * (100 - product.discount) / 100)} VND</b>
+                  </div>
                 </div>
+              )
+              : (
                 <div>
-                  <b>{formatCash(product.price * (100 - product.discount) / 100)} VND</b>
+                  <b>{formatCash(product.price)} VND</b>
                 </div>
-              </div>
-              : <div>
-                <b>{formatCash(product.price)}</b>
-              </div>
+              )
           }
         </Card.Text>
       </Card.Body>
