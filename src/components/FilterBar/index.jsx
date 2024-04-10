@@ -27,6 +27,7 @@ const FilterBar = ({ gender, setGender, kids, setKids, priceGroup, setPriceGroup
               label="Male"
               name="gender"
               checked={gender === 0}
+              disabled={kids !== null}
               onChange={() => handleSetGender(0)}
             />
             <Form.Check
@@ -34,6 +35,7 @@ const FilterBar = ({ gender, setGender, kids, setKids, priceGroup, setPriceGroup
               label="Female"
               name="gender"
               checked={gender === 1}
+              disabled={kids !== null}
               onChange={() => handleSetGender(1)}
             />
           </Accordion.Body>
@@ -47,6 +49,7 @@ const FilterBar = ({ gender, setGender, kids, setKids, priceGroup, setPriceGroup
               label="Boys"
               name="kids"
               checked={kids === 0}
+              disabled={gender !== null}
               onChange={() => handleSetKids(0)}
             />
             <Form.Check
@@ -54,6 +57,7 @@ const FilterBar = ({ gender, setGender, kids, setKids, priceGroup, setPriceGroup
               label="Girls"
               name="kids"
               checked={kids === 1}
+              disabled={gender !== null}
               onChange={() => handleSetKids(1)}
             />
           </Accordion.Body>
