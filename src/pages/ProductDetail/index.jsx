@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 
 import image from "../../assets/shoes.png"
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Col, Container, Row, Spinner, Toast } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import useProductStore from "../../features/product/productStore";
 import useCartStore from "../../features/cart/cartStore";
 import useAuthStore from "../../features/auth/authStore";
 import useUserStore from "../../features/user/userStore";
 import { formatCash } from "../../utils/formatCash";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -41,9 +43,17 @@ const ProductDetail = () => {
 
   return (
     <>
-      <Toast show={error !== null} delay={1000} autohide>
-        {error}
-      </Toast>
+      {
+        error && (
+          <ToastContainer
+            position="top-right"
+            autoClose={false}
+            bodyClassName={{ type: 'error' }}
+          >
+            {error}
+          </ToastContainer>
+        )
+      }
 
       <Container fluid>
         <Row>

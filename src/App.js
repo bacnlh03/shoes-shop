@@ -1,4 +1,4 @@
-import { ToastContainer } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import './App.css';
 import NavbarComponent from './components/Navbar';
 import AppRouter from './router';

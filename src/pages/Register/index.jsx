@@ -1,9 +1,11 @@
 import { ErrorMessage, Formik } from "formik";
 import React from "react";
-import { Button, Form, Spinner, Toast } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import registerSchema from "../../validation/register";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../features/auth/authStore";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -22,9 +24,17 @@ const Register = () => {
 
   return (
     <div style={{ position: 'absolute', left: '50%', top: '40%', transform: 'translate(-50%, -50%)' }}>
-      <Toast show={error !== null} delay={1000} autohide>
-        {error}
-      </Toast>
+      {
+        error && (
+          <ToastContainer
+            position="top-right"
+            autoClose={false}
+            bodyClassName={{ type: 'error' }}
+          >
+            {error}
+          </ToastContainer>
+        )
+      }
 
       <h2>Enter your information to register</h2>
       <br />

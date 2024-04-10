@@ -1,4 +1,4 @@
-import { Badge, Button, Container, Form, FormControl, Nav, Navbar, Spinner, Toast } from 'react-bootstrap';
+import { Badge, Button, Nav, Navbar, Spinner } from 'react-bootstrap';
 
 import logo from '../../assets/logo.svg';
 import useUserStore from '../../features/user/userStore';
@@ -7,6 +7,8 @@ import useAuthStore from '../../features/auth/authStore';
 import cartLogo from '../../assets/cart.svg';
 import useCartStore from '../../features/cart/cartStore';
 import { CiSearch } from "react-icons/ci";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./style.css";
 
@@ -27,9 +29,17 @@ const NavbarComponent = () => {
 
   return (
     <>
-      <Toast show={error !== null} delay={1000} autohide>
-        {error}
-      </Toast>
+      {
+        error && (
+          <ToastContainer
+            position="top-right"
+            autoClose={false}
+            bodyClassName={{ type: 'error' }}
+          >
+            {error}
+          </ToastContainer>
+        )
+      }
 
       {
         user

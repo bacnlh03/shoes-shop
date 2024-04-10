@@ -5,6 +5,8 @@ import checkoutSchema from "../../validation/checkout";
 import Divider from "../Divider";
 import useCartStore from "../../features/cart/cartStore";
 import { formatCash } from "../../utils/formatCash";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Checkout = ({ totalPrice, props }) => {
   const initialValues = {
@@ -17,8 +19,13 @@ const Checkout = ({ totalPrice, props }) => {
 
   const onSubmit = async () => {
     handleCheckout().then(() => {
-      window.alert('Checkout successfully');
-      window.location.reload();
+      toast.success('Checkout successfully', {
+        position: 'top-center',
+        autoClose: 2000
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     });
   };
 

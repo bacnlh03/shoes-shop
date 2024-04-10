@@ -1,6 +1,8 @@
 import React from "react";
-import { Container, Row, Spinner, Toast } from "react-bootstrap";
+import { Container, Row, Spinner } from "react-bootstrap";
 import Product from "../Product";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ListProduct = ({ products, isLoading, error }) => {
   if (isLoading) {
@@ -11,9 +13,17 @@ const ListProduct = ({ products, isLoading, error }) => {
 
   return (
     <Container>
-      <Toast show={error !== null} delay={1000} autohide>
-        {error}
-      </Toast>
+      {
+        error && (
+          <ToastContainer
+            position="top-right"
+            autoClose={false}
+            bodyClassName={{ type: 'error' }}
+          >
+            {error}
+          </ToastContainer>
+        )
+      }
       {
         products.length === 0
           ? <div>Empty Product</div>
