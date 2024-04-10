@@ -61,22 +61,19 @@ const useProductStore = create((set, get) => ({
       set({ isLoading: false, error: error.message });
     }
   },
-  searchProductByName: async (query) => {
+  sortProductByTime: async () => {
     set({ isLoading: true, error: null });
 
     try {
-      if (query === '') {
-        const originalListProduct = get().originalListProduct;
-        set({ isLoading: false, listProduct: originalListProduct });
+      const products = get().listProduct.slice();
+
+      if (products && products.length > 0) {
+        products.sort((a, b) => b.id - a.id);
+
+        set({ isLoading: false, listProduct: products });
+      } else {
+        throw new Error("List of products is empty.");
       }
-
-      const queryLowerCase = query.toLowerCase();
-
-      const result = get().listProduct.slice().filter(
-        product => product.name.toLowerCase().includes(queryLowerCase)
-      );
-
-      set({ isLoading: false, listProduct: result });
     } catch (error) {
       set({ isLoading: false, error: error.message });
     }

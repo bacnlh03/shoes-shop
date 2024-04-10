@@ -6,9 +6,14 @@ import useProductStore from "../../features/product/productStore";
 
 const SearchBar = ({ name, setName, onSearch, onReset }) => {
   const {
+    sortProductByTime,
     sortProductByPriceAsc,
     sortProductByPriceDesc
   } = useProductStore();
+
+  const handleSortProductByTime = async () => {
+    await sortProductByTime();
+  };
 
   const handleSortProductByPriceAsc = async () => {
     await sortProductByPriceAsc();
@@ -69,7 +74,7 @@ const SearchBar = ({ name, setName, onSearch, onReset }) => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={handleSortProductByTime}>
                 Newest
               </Dropdown.Item>
 
