@@ -111,6 +111,44 @@ const useProductStore = create((set, get) => ({
         console.log(`After filter gender: ${result}`);
       }
 
+      if (priceGroup !== undefined && priceGroup !== null) {
+        console.log(`Inside price group: ${priceGroup}`);
+
+        let minPrice = 0;
+        let maxPrice = 0;
+
+        switch (priceGroup) {
+          case 0:
+            maxPrice = 1000000;
+            break;
+          case 1:
+            minPrice = 1000000;
+            maxPrice = 2000000;
+            break;
+          case 2:
+            minPrice = 2000000;
+            maxPrice = 3000000;
+            break;
+          case 3:
+            minPrice = 3000000;
+            maxPrice = 4000000;
+            break;
+          case 4:
+            minPrice = 4000000;
+            maxPrice = 5000000;
+            break;
+          case 5:
+            minPrice = 5000000;
+            break;
+          default:
+            throw new Error("Invalid price group");
+        }
+
+        result = result.filter(
+          product => product.price > minPrice && (maxPrice === 0 || product.price <= maxPrice)
+        );
+      }
+
       set({ isLoading: false, listProduct: result });
     } catch (error) {
       set({ isLoading: false, error: error.message });
