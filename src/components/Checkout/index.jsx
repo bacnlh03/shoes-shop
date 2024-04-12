@@ -7,6 +7,7 @@ import useCartStore from "../../features/cart/cartStore";
 import { formatCash } from "../../utils/formatCash";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useOrderStore from "../../features/order/orderStore";
 
 const Checkout = ({ totalPrice, props }) => {
   const initialValues = {
@@ -15,21 +16,27 @@ const Checkout = ({ totalPrice, props }) => {
     phone: ''
   };
 
-  const { isLoading, handleCheckout } = useCartStore();
+  const { cart, isLoading, handleCheckout } = useCartStore();
+  const { addOrder } = useOrderStore();
 
-  const onSubmit = async () => {
-    handleCheckout().then(() => {
-      toast.success('Checkout successfully', {
-        position: 'top-center',
-        autoClose: 2000
+  const onSubmit = async (values) => {
+    handleCheckout()
+      .then(() => {
+        addOrder(values, total, cart);
+      })
+      .then(() => {
+        toast.success('Checkout successfully', {
+          position: 'top-center',
+          autoClose: 2000
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2500);
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2500);
-    });
   };
 
   const dilivery = 20000;
+  const total = totalPrice + dilivery;
 
   return (
     <Row {...props}>
@@ -116,7 +123,7 @@ const Checkout = ({ totalPrice, props }) => {
               <Row>
                 <Col className="col-sm-1">Total</Col>
                 <Col style={{ textAlign: 'end', paddingRight: '20%' }}>
-                  {formatCash(totalPrice + dilivery)}
+                  {formatCash(total)}
                 </Col>
               </Row>
 

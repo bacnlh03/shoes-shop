@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import ProductDetail from "../pages/ProductDetail";
 import PrivateRoute from "./PrivateRoute";
 import Cart from "../pages/Cart";
+import Order from "../pages/Order";
 
 const AppRouter = () => {
   return (
@@ -17,6 +18,7 @@ const AppRouter = () => {
 
       <Route element={<PrivateRoute />}>
         <Route path="/cart" element={<Cart />} />
+        <Route path="/orders" element={<Order />} />
       </Route>
     </Routes>
   );

@@ -1,8 +1,9 @@
-import { Badge, Button, Nav, Navbar, Spinner } from 'react-bootstrap';
+import { Badge, Button, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
 import logo from '../../assets/logo.svg';
 import useUserStore from '../../features/user/userStore';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../features/auth/authStore';
 import cartLogo from '../../assets/cart.svg';
 import useCartStore from '../../features/cart/cartStore';
@@ -13,9 +14,10 @@ import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 
 const NavbarComponent = () => {
-  const { token, isLoading, error, logout } = useAuthStore();
+  const { token, error, logout } = useAuthStore();
   const { user, getCurrentUser } = useUserStore();
   const { cart } = useCartStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -46,16 +48,19 @@ const NavbarComponent = () => {
           ? (
             <div className='d-flex justify-content-end pe-5'>
               <div style={{ padding: 10 }}>
-                <Nav.Link href='#edit'>{user.username}</Nav.Link>
+                <NavDropdown title={`Hi, ${user.username}`}>
+                  <NavDropdown.Item onClick={() => navigate('/orders')}>
+                    View orders
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    Change profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout} className='btn-logout'>
+                    Log out
+                  </NavDropdown.Item>
+                </NavDropdown>
               </div>
-              <div className='vr'></div>
-              <Button variant='link' onClick={handleLogout} disabled={isLoading}>
-                {
-                  isLoading
-                    ? <Spinner />
-                    : 'Log out'
-                }
-              </Button>
             </div>
           ) : (
             <div className='d-flex justify-content-end pe-5'>
