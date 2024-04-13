@@ -12,21 +12,30 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./style.css";
+import useProductStore from '../../features/product/productStore';
+import { useScroll } from '../../context/ScrollContext';
 
 const NavbarComponent = () => {
   const { token, error, logout } = useAuthStore();
   const { user, getCurrentUser } = useUserStore();
+  const { filterProduct } = useProductStore();
   const { cart } = useCartStore();
   const navigate = useNavigate();
+  const { scrollToData } = useScroll();
 
   useEffect(() => {
-    if (token) {
+    if (token && !user) {
       getCurrentUser();
     }
-  }, [token, getCurrentUser]);
+  }, [token, user, getCurrentUser]);
 
   const handleLogout = () => {
     logout().then(() => window.location.reload());
+  };
+
+  const handleFilterProduct = async ({ gender, kids }) => {
+    filterProduct({ gender: gender, kids: kids })
+      .then(() => scrollToData());
   };
 
   return (
@@ -90,15 +99,28 @@ const NavbarComponent = () => {
 
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
-            <Nav.Link href='#men'>Men</Nav.Link>
-            <Nav.Link href='#women'>Women</Nav.Link>
-            <Nav.Link href='#kids'>Kids</Nav.Link>
-            <Nav.Link href='#sale'>Sale</Nav.Link>
+            <Nav.Link onClick={() => handleFilterProduct({ gender: 0 })}>
+              Men
+            </Nav.Link>
+            <Nav.Link onClick={() => handleFilterProduct({ gender: 1 })}>
+              Women
+            </Nav.Link>
+            <Nav.Link href='#kids'>
+              Kids
+            </Nav.Link>
+            <Nav.Link href='#sale'>
+              Sale
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
 
         <div className='d-inline-block justify-content-end'>
-          <Button className='mx-2' variant='outline' style={{ border: 'solid 1px' }}>
+          <Button
+            className='mx-2'
+            variant='outline'
+            style={{ border: 'solid 1px' }}
+            onClick={scrollToData}
+          >
             <CiSearch width={30} />{' '}
             Search
           </Button>
@@ -108,7 +130,7 @@ const NavbarComponent = () => {
             {user && <Badge>{cart.length}</Badge>}
           </a>
         </div>
-      </Navbar>
+      </Navbar >
     </>
   );
 };

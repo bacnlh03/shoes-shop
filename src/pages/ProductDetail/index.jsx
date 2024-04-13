@@ -8,7 +8,7 @@ import useCartStore from "../../features/cart/cartStore";
 import useAuthStore from "../../features/auth/authStore";
 import useUserStore from "../../features/user/userStore";
 import { formatCash } from "../../utils/formatCash";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetail = () => {
@@ -27,12 +27,26 @@ const ProductDetail = () => {
 
   const handleAddToCart = async () => {
     if (!token || !user) {
-      navigate('/login');
-      return;
+      toast.warn('You must be logged in', {
+        position: 'top-center',
+        autoClose: 2000
+      });
+      setTimeout(() => {
+        navigate('/login');
+        return;
+      }, 2500);
+    } else {
+      addToCart(selectedProduct)
+        .then(() => {
+          toast.success('Added product successfully', {
+            position: 'top-center',
+            autoClose: 2000
+          })
+          setTimeout(() => {
+            window.location.reload();
+          }, 2500);
+        });
     }
-
-    addToCart(selectedProduct)
-      .then(() => window.location.reload());
   };
 
   if (isLoading) {

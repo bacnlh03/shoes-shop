@@ -3,6 +3,7 @@ import { Button, Col, Container, Dropdown, Form, InputGroup, Row } from "react-b
 
 import "./style.css";
 import useProductStore from "../../features/product/productStore";
+import { useScroll } from "../../context/ScrollContext";
 
 const SearchBar = ({ name, setName, onSearch, onReset }) => {
   const {
@@ -10,6 +11,8 @@ const SearchBar = ({ name, setName, onSearch, onReset }) => {
     sortProductByPriceAsc,
     sortProductByPriceDesc
   } = useProductStore();
+
+  const { scrollRef } = useScroll();
 
   const handleSortProductByTime = async () => {
     await sortProductByTime();
@@ -24,7 +27,7 @@ const SearchBar = ({ name, setName, onSearch, onReset }) => {
   };
 
   return (
-    <Container fluid className="px-5 pt-5">
+    <Container ref={scrollRef} fluid className="px-5 pt-5">
       <Row className="justify-content-between">
         <Col>
           <Form>
