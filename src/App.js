@@ -3,12 +3,24 @@ import './App.css';
 import NavbarComponent from './components/Navbar';
 import AppRouter from './router';
 import { ScrollProvider } from './context/ScrollContext';
+import { useLocation } from 'react-router-dom';
 
 function App() {
+  const location = useLocation();
+
+  const isShowNavbar = () => {
+    if (location.pathname === '/login' || location.pathname === '/register') {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <div className="App">
       <ScrollProvider>
-        <NavbarComponent />
+        {
+          isShowNavbar() && <NavbarComponent />
+        }
         <AppRouter />
         <ToastContainer position='top-center' />
       </ScrollProvider>
