@@ -1,10 +1,33 @@
-import React from "react";
-import { Container, Row, Spinner } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Pagination, Row, Spinner } from "react-bootstrap";
 import Product from "../Product";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const ListProduct = ({ products, isLoading, error }) => {
+  const itemsPerPage = 6;
+  const [itemOffset, setItemOffset] = useState(0);
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = products.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(products.length / itemsPerPage);
+  const [selectedPage, setSelectedPage] = useState(0);
+
+  const handlePageClick = (pageIndex) => {
+    setSelectedPage(pageIndex);
+    setItemOffset((pageIndex * itemsPerPage) % products.length);
+  };
+
+  let items = [];
+  for (let i = 0; i < pageCount; i++) {
+    items.push(
+      <Pagination.Item
+        key={i}
+        active={i === selectedPage}
+        onClick={() => handlePageClick(i)}
+      >
+        {i}
+      </Pagination.Item>
+    )
+  }
+
   if (isLoading) {
     return (
       <Spinner />
@@ -14,26 +37,27 @@ const ListProduct = ({ products, isLoading, error }) => {
   return (
     <Container>
       {
-        error && (
-          <ToastContainer
-            position="top-right"
-            autoClose={false}
-            bodyClassName={{ type: 'error' }}
-          >
-            {error}
-          </ToastContainer>
-        )
+        error && <div>{error}</div>
       }
       {
         products.length === 0
           ? <div>Empty Product</div>
-          : <Row md={3}>
+          : !error && <Row md={3}>
             {
-              products.map(product => (
+              currentItems.map(product => (
                 <Product key={product.id} product={product} />
               ))
             }
           </Row>
+      }
+      {
+        !error && products.length !== 0 && <Pagination className="justify-content-center">
+          <Pagination.First onClick={() => handlePageClick(0)} />
+          <Pagination.Prev onClick={() => handlePageClick(selectedPage - 1)} />
+          {items}
+          <Pagination.Next onClick={() => handlePageClick(selectedPage + 1)} />
+          <Pagination.Last onClick={() => handlePageClick(pageCount - 1)} />
+        </Pagination>
       }
     </Container>
   );

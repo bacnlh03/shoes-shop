@@ -149,6 +149,10 @@ const useProductStore = create((set, get) => ({
         );
       }
 
+      if (result.length === 0) {
+        throw new Error("No products matching the filter criteria");
+      }
+
       set({ isLoading: false, listProduct: result });
     } catch (error) {
       set({ isLoading: false, error: error.message });

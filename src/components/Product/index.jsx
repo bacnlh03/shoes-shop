@@ -15,7 +15,10 @@ const Product = ({ product }) => {
   }
 
   return (
-    <Card onClick={() => handleCardClick(product)} style={{ cursor: 'pointer' }}>
+    <Card
+      onClick={() => handleCardClick(product)}
+      style={{ cursor: 'pointer', width: '18rem', margin: '5px' }}
+    >
       <div style={{ position: 'relative' }}>
         <div style={{ position: 'absolute', top: '5px', right: '5px' }}>
           {product.discount !== 0 &&
